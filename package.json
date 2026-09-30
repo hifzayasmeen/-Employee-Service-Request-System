@@ -1,0 +1,22 @@
+{
+  "name": "employee-service-request-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix backend test"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^10.0.13",
+    "pg": "^8.12.0"
+  }
+}

@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: esr, POSTGRES_PASSWORD: esr_pass, POSTGRES_DB: esr }
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL","pg_isready -U esr"], interval: 3s, retries: 15 }
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ["8025:8025"]
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgres://esr:esr_pass@db:5432/esr
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      EMAIL_FROM: ${EMAIL_FROM:-service-desk@localhost}
+    ports: ["4000:4000"]
+    depends_on:
+      db: { condition: service_healthy }
+      mailpit: { condition: service_started }
+  frontend:
+    build: ./frontend
+    ports: ["3000:80"]
+    depends_on: [backend]
+volumes: { pgdata: {} }
