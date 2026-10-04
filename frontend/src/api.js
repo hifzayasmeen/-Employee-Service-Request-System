@@ -1,9 +1,10 @@
 let token = sessionStorage.getItem('token');
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 export const setToken = t => { token = t; t ? sessionStorage.setItem('token', t) : sessionStorage.removeItem('token'); };
 export const hasToken = () => !!token;
 
 export async function api(path, { method = 'GET', body } = {}) {
-  const res = await fetch('/api' + path, {
+  const res = await fetch(API_BASE + '/api' + path, {
     method,
     headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
     body: body ? JSON.stringify(body) : undefined,

@@ -11,9 +11,19 @@ docker compose up --build
 # Local email inbox: http://localhost:8025
 ```
 Demo accounts (password `Password@123`): asha@corp.com, ravi@corp.com (employees), meera@corp.com (IT), karan@corp.com (HR), sana@corp.com (Facility), admin@corp.com (admin).
+The shared password is for local development only. Production seeding requires a private `DEMO_PASSWORD` value of at least 12 characters; never publish it in the frontend or source code.
 
-Local dev: start Postgres, then `cd backend && npm i && DATABASE_URL=postgres://... npm start` and `cd frontend && npm i && npm run dev`.
-Tests: `cd backend && npm test`.
+Local development: start PostgreSQL, then run the backend from `backend` with `DATABASE_URL` set and run the frontend from `frontend` with `npm run dev`.
+
+## Project documentation
+- [Requirements, design and architecture](docs/requirements-and-design.md)
+- [Employee, agent and admin user guide](docs/user-guide.md)
+- [Test and validation evidence](docs/test-validation.md)
+- [Presentation and live demo script](docs/demo-presentation.md)
+- [Public Vercel demo deployment](docs/deployment.md)
+
+## Tests
+Run the backend unit tests with `npm test` from the repository root. The API integration test is opt-in and needs a disposable PostgreSQL database whose name ends in `_test`. To run the full suite against a temporary database in the Docker Compose stack, see [Test and validation evidence](docs/test-validation.md).
 
 ## Roles
 | Role | Can do |

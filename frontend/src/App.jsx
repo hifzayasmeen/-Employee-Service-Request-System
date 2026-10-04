@@ -6,7 +6,7 @@ const DEMO = [['Asha (Employee)', 'asha@corp.com'], ['Meera (IT agent)', 'meera@
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('asha@corp.com');
-  const [password, setPassword] = useState('Password@123');
+  const [password, setPassword] = useState(import.meta.env.DEV ? 'Password@123' : '');
   const [err, setErr] = useState('');
   const [forgot, setForgot] = useState(false);
   const [notice, setNotice] = useState('');
@@ -46,8 +46,10 @@ function Login({ onLogin }) {
         <button>Sign in</button>
         <button type="button" className="ghost" onClick={() => { setForgot(true); setErr(''); }}>Forgot password?</button>
       </form>
-      <p className="mut">Demo accounts (password Password@123):</p>
-      <div className="chips">{DEMO.map(([n, m]) => <button key={m} className="ghost" onClick={() => setEmail(m)}>{n}</button>)}</div>
+      {import.meta.env.DEV && <>
+        <p className="mut">Demo accounts (password Password@123):</p>
+        <div className="chips">{DEMO.map(([n, m]) => <button key={m} className="ghost" onClick={() => setEmail(m)}>{n}</button>)}</div>
+      </>}
         </>
       )}
     </main>
